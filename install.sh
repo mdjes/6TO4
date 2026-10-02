@@ -23,10 +23,10 @@ pip3 install flask --break-system-packages >/dev/null 2>&1 || pip3 install flask
 PASSWORD=$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 10 | head -n 1)
 SECRET_KEY=$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 32 | head -n 1)
 
-# Apply settings to app.py
-sed -i "s/PASSWORD = 'admin'/PASSWORD = '${PASSWORD}'/g" app.py
-sed -i "s/super_secret_key_change_in_production/${SECRET_KEY}/g" app.py
-sed -i "s/port=5000/port=8820/g" app.py
+# Apply settings to web/app.py
+sed -i "s/PASSWORD = 'admin'/PASSWORD = '${PASSWORD}'/g" web/app.py
+sed -i "s/super_secret_key_change_in_production/${SECRET_KEY}/g" web/app.py
+sed -i "s/port=5000/port=8820/g" web/app.py
 
 echo -e "\e[34m[4/4] Setting up background service...\e[0m"
 cat <<EOF > /etc/systemd/system/6to4web.service
@@ -36,8 +36,8 @@ After=network.target
 
 [Service]
 User=root
-WorkingDirectory=/opt/6TO4
-ExecStart=/usr/bin/python3 /opt/6TO4/app.py
+WorkingDirectory=/opt/6TO4/web
+ExecStart=/usr/bin/python3 /opt/6TO4/web/app.py
 Restart=always
 RestartSec=3
 

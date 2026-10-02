@@ -8,17 +8,16 @@ fi
 
 echo -e "\e[34m[1/4] Installing required packages...\e[0m"
 apt-get update -q
-apt-get install -y -q python3 python3-pip python3-venv git curl
+apt-get install -y -q python3 python3-pip git curl python3-flask
 
 echo -e "\e[34m[2/4] Downloading project from GitHub...\e[0m"
 rm -rf /opt/6TO4
 git clone https://github.com/mdjes/6TO4.git /opt/6TO4
 cd /opt/6TO4
 
-echo -e "\e[34m[3/4] Configuring Web Panel and VENV...\e[0m"
-# Create virtual environment and install flask
-python3 -m venv venv
-/opt/6TO4/venv/bin/pip install flask
+echo -e "\e[34m[3/4] Configuring Web Panel...\e[0m"
+# Attempt to install flask via pip just in case apt failed
+pip3 install flask --break-system-packages >/dev/null 2>&1 || pip3 install flask >/dev/null 2>&1
 
 # Generate random password and secret key
 PASSWORD=$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 10 | head -n 1)
@@ -38,7 +37,7 @@ After=network.target
 [Service]
 User=root
 WorkingDirectory=/opt/6TO4
-ExecStart=/opt/6TO4/venv/bin/python /opt/6TO4/app.py
+ExecStart=/usr/bin/python3 /opt/6TO4/app.py
 Restart=always
 RestartSec=3
 

@@ -15,8 +15,10 @@ rm -rf /opt/6TO4
 git clone https://github.com/mdjes/6TO4.git /opt/6TO4
 cd /opt/6TO4
 
-# Install Flask (using --break-system-packages for newer Debian/Ubuntu versions just in case)
-pip3 install flask --break-system-packages 2>/dev/null || pip3 install flask
+# Install Flask using apt for better compatibility on Debian/Ubuntu
+apt-get install -y -q python3-flask
+# Also try pip just in case apt package is missing on their specific OS
+pip3 install flask --break-system-packages 2>/dev/null || pip3 install flask 2>/dev/null
 
 echo -e "\e[34m[3/4] Configuring Web Panel...\e[0m"
 # Generate random password and secret key

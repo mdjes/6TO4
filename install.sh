@@ -54,8 +54,8 @@ if command -v ufw >/dev/null 2>&1; then
     ufw allow 8820/tcp >/dev/null 2>&1
 fi
 
-# Get Public IP
-PUBLIC_IP=$(curl -s ifconfig.me)
+# Get Public IP (Force IPv4)
+PUBLIC_IP=$(curl -4 -s ifconfig.me || curl -s ipv4.icanhazip.com || curl -s v4.ident.me)
 
 echo -e "\e[32m====================================================\e[0m"
 echo -e "\e[32m✅ نصب با موفقیت انجام شد (Installation Successful)\e[0m"

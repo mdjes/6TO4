@@ -9,7 +9,7 @@
 کافیست دستور زیر را با دسترسی root در ترمینال سرور خود کپی و اجرا کنید. این دستور به صورت خودکار پروژه را دانلود کرده، پیش‌نیازها را نصب می‌کند و پنل را روی پورت **8820** راه‌اندازی می‌کند:
 
 ```bash
-bash <(curl -Ls https://raw.githubusercontent.com/mdjes/6TO4/main/install.sh?v=6)
+bash <(curl -Ls https://raw.githubusercontent.com/mdjes/6TO4/main/install.sh?v=7)
 ```
 
 در انتهای نصب، **آی‌پی سرور** و یک **رمز عبور تصادفی** مختص شما ساخته شده و در صفحه چاپ می‌شود.

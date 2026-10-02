@@ -54,8 +54,15 @@ if command -v ufw >/dev/null 2>&1; then
     ufw allow 8820/tcp >/dev/null 2>&1
 fi
 
-# Get Public IP (Force IPv4)
-PUBLIC_IP=$(curl -4 -s ifconfig.me || curl -s ipv4.icanhazip.com || curl -s v4.ident.me)
+# Get Public IPv4 (Guaranteed IPv4 only APIs)
+PUBLIC_IP=$(curl -s -4 api.ipify.org)
+if [ -z "$PUBLIC_IP" ]; then
+    PUBLIC_IP=$(curl -s -4 ipv4.icanhazip.com)
+fi
+if [ -z "$PUBLIC_IP" ]; then
+    # Fallback to fetching primary local IPv4 address
+    PUBLIC_IP=$(ip -4 route get 8.8.8.8 | awk '{print $7}' | head -n 1)
+fi
 
 echo -e "\e[32m====================================================\e[0m"
 echo -e "\e[32m✅ نصب با موفقیت انجام شد (Installation Successful)\e[0m"
